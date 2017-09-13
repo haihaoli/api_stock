@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331221103) do
+ActiveRecord::Schema.define(version: 20170913022323) do
 
   create_table "usstocks", force: :cascade do |t|
     t.string   "juhe_gid"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170331221103) do
     t.string   "uppic"
     t.string   "priearn"
     t.string   "beta"
-    t.date     "chtime"
+    t.date     "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

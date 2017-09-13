@@ -13,15 +13,16 @@ class UsstocksController < ApplicationController
     @usstock.save
     response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
     data = JSON.parse(response.body)
-    data["result"].each do |c|
-      @usstock = Usstock.update(:juhe_gid => c["data"]["gid"], :name => c["data"]["name"],
-                      :lastestpri => c["data"]["lastestpri"], :openpri => c["data"]["openpri"],
-                      :formpri => c["data"]["formpri"], :limit => c["data"]["limit"],
-                      :uppic => c["data"]["uppic"], :priearn => c["data"]["priearn"],
-                      :beta => c["data"]["beta"], :chtime => c["data"]["chtime"])
-    end
+
+      @usstock.update(:name => data["result"][0]["data"]["name"],
+                      :lastestpri => data["result"][0]["data"]["lastestpri"], :openpri => data["result"][0]["data"]["openpri"],
+                      :formpri => data["result"][0]["data"]["formpri"], :limit => data["result"][0]["data"]["limit"],
+                      :uppic => data["result"][0]["data"]["uppic"], :priearn => data["result"][0]["data"]["priearn"],
+                      :beta => data["result"][0]["data"]["beta"])
+
     redirect_to usstock_path(@usstock)
   end
+
 
   def show
     @usstock = Usstock.find(params[:id])

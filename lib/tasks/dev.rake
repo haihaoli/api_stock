@@ -16,4 +16,25 @@ namespace :dev do
       puts "#{Usstock.last.name}(#{Usstock.last.juhe_gid})'s data is fetched"
     end
   end
+
+  task :fetch_stock_list => :environment do
+    puts "Fetch stock data..."
+    total = 0
+    for i in 1..135 do
+
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usaall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "3"}
+      data = JSON.parse(response.body)
+      data["result"]["data"].each do |s|
+        existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
+        if existing_stock.nil?
+          Usstock.create!(:juhe_gid => s["symbol"], :name => s["cname"])
+          total += 1
+        end
+      end
+
+    end
+    puts "#{total} data is fetched"
+  end
+
+
 end

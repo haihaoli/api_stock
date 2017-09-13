@@ -1,0 +1,18 @@
+<h2>美股列表</h2>
+
+<table class="table">
+  <tr>
+    <th>ID编号</th>
+    <th>股票代号</th>
+    <th>股票名称</th>
+    <th>抓取时间</th>
+  </tr>
+  <% @usstocks.each do |u| %>
+  <tr>
+    <td><%= u.id %></td>
+    <td><%= u.juhe_gid %></td>
+    <td><%= u.name %></td>
+    <td><%= u.created_at %></td>
+  </tr>
+  <% end %>
+</table>
