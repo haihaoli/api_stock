@@ -15,7 +15,7 @@
         <td>涨跌额</td>
         <td>市盈率</td>
         <td>beta值</td>
-        <td>更新时间</td>
+        <td>美国当前更新时间</td>
       </thead>
       <tbody>
         <td><%= @usstock.juhe_gid %></td>
@@ -32,7 +32,7 @@
     </tr>
   </table>
 
-  <%= image_tag("http://image.sinajs.cn/newchartv5/usstock/min/#{@usstock.juhe_gid}.gif")%>
+  <%= image_tag("http://image.sinajs.cn/newchartv5/usstock/daily/#{@usstock.juhe_gid}.gif")%>
   <br>
   <%= link_to "重新查询", root_path, class: "pull-right btn btn-primary" %>
 </div>

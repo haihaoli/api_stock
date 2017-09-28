@@ -1,22 +1,31 @@
 class UsstocksController < ApplicationController
 
   def index
-    @usstocks = Usstock.all
+    @q = Usstock.ransack(params[:q])
+    @usstocks = @q.result.page(params[:page]).per(100)
   end
 
   def show
-    @usstock = Usstock.find(params[:id])
+    @usstock = Usstock.find_by_juhe_gid!(params[:id])
     response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
     data = JSON.parse(response.body)
-    @lastestpri = data["result"][0]["data"]["lastestpri"]
-    @openpri = data["result"][0]["data"]["openpri"]
-    @formpri = data["result"][0]["data"]["formpri"]
-    @limit = data["result"][0]["data"]["limit"]
-    @uppic = data["result"][0]["data"]["uppic"]
-    @priearn = data["result"][0]["data"]["priearn"]
-    @beta = data["result"][0]["data"]["beta"]
-    @ustime = data["result"][0]["data"]["ustime"]
+    s = data["result"][0]["data"]
+    @lastestpri = s["lastestpri"]
+    @openpri = s["openpri"]
+    @formpri = s["formpri"]
+    @limit = s["limit"]
+    @uppic = s["uppic"]
+    @priearn = s["priearn"]
+    @beta = s["beta"]
+    @ustime = s["ustime"]
   end
+
+  # def destroy
+  #   @usstock = Usstock.find(params[:id])
+  #   if @usstock.destroy
+  #     redirect_to usstocks_path
+  #   end
+  # end
 
   private
 
