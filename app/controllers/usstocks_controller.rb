@@ -7,7 +7,11 @@ class UsstocksController < ApplicationController
 
   def show
     @usstock = Usstock.find_by_juhe_gid!(params[:id])
-    response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+    if @usstock.usstock?
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+    elsif @usstock.hkstock?
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+    end
     data = JSON.parse(response.body)
     s = data["result"][0]["data"]
     @lastestpri = s["lastestpri"]
@@ -16,8 +20,8 @@ class UsstocksController < ApplicationController
     @limit = s["limit"]
     @uppic = s["uppic"]
     @priearn = s["priearn"]
-    @beta = s["beta"]
     @ustime = s["ustime"]
+    @time = s["time"]
   end
 
   # def destroy

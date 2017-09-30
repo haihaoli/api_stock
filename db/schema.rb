@@ -10,21 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928070057) do
+ActiveRecord::Schema.define(version: 20170928075705) do
 
   create_table "usstocks", force: :cascade do |t|
     t.string   "juhe_gid"
     t.string   "name"
-    t.string   "lastestpri"
-    t.string   "openpri"
-    t.string   "formpri"
-    t.string   "limit"
-    t.string   "uppic"
-    t.string   "priearn"
-    t.string   "beta"
     t.date     "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "stock_type"
     t.index ["juhe_gid"], name: "index_usstocks_on_juhe_gid"
   end
 

@@ -1,38 +1,44 @@
-
 <div class="container">
-
-  <h2>查询结果</h2>
-
   <table class="table">
     <tr>
       <thead>
         <td>股票编号</td>
         <td>股票名称</td>
+        <td>股票类型</td>
         <td>最新价格</td>
         <td>今天开盘价</td>
         <td>昨天收盘价</td>
-        <td>涨跌幅</td>
+        <td>涨跌幅%</td>
         <td>涨跌额</td>
         <td>市盈率</td>
-        <td>beta值</td>
-        <td>美国当前更新时间</td>
+        <td>当地更新时间</td>
       </thead>
       <tbody>
         <td><%= @usstock.juhe_gid %></td>
         <td><%= @usstock.name %></td>
+        <td><%= @usstock.stock_type %></td>
         <td><%= @lastestpri %></td>
         <td><%= @openpri %></td>
         <td><%= @formpri %></td>
         <td><%= @limit %></td>
         <td><%= @uppic%></td>
         <td><%= @priearn %></td>
-        <td><%= @beta %></td>
-        <td><%= @ustime %></td>
+        <td>
+          <% if @usstock.usstock? %>
+            <%= @ustime %>
+          <% elsif @usstock.hkstock? %>
+            <%= @time %>
+          <% end %>
+        </td>
       </tbody>
     </tr>
   </table>
 
-  <%= image_tag("http://image.sinajs.cn/newchartv5/usstock/daily/#{@usstock.juhe_gid}.gif")%>
+  <% if @usstock.usstock? %>
+    <%= image_tag("http://image.sinajs.cn/newchartv5/usstock/daily/#{@usstock.juhe_gid}.gif")%>
+  <% elsif @usstock.hkstock? %>
+    <%= image_tag("http://image.sinajs.cn/newchart/hk_stock/daily/#{@usstock.juhe_gid}.gif")%>
+  <% end %>
   <br>
   <%= link_to "重新查询", root_path, class: "pull-right btn btn-primary" %>
 </div>
