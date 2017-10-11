@@ -24,11 +24,7 @@
         <td><%= @uppic%></td>
         <td><%= @priearn %></td>
         <td>
-          <% if @usstock.usstock? %>
             <%= @ustime %>
-          <% elsif @usstock.hkstock? %>
-            <%= @time %>
-          <% end %>
         </td>
       </tbody>
     </tr>
@@ -38,6 +34,8 @@
     <%= image_tag("http://image.sinajs.cn/newchartv5/usstock/daily/#{@usstock.juhe_gid}.gif")%>
   <% elsif @usstock.hkstock? %>
     <%= image_tag("http://image.sinajs.cn/newchart/hk_stock/daily/#{@usstock.juhe_gid}.gif")%>
+  <% elsif @usstock.cnstock? %>
+    <%= image_tag("http://image.sinajs.cn/newchart/daily/n/#{@usstock.juhe_gid}.gif")%>
   <% end %>
   <br>
   <%= link_to "重新查询", root_path, class: "pull-right btn btn-primary" %>

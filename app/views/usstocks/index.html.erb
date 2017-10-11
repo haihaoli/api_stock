@@ -16,6 +16,7 @@
     <th>股票类型</th>
     <!-- <th>抓取时间</th> -->
     <!-- <th></th> -->
+    <th>关注选项</th>
   </tr>
   <% @usstocks.each do |u| %>
   <tr>
@@ -28,6 +29,15 @@
     <td><%= u.stock_type %></td>
     <!-- <td><%= u.created_at %></td> -->
     <!-- <td><%= link_to"删除记录", usstock_path(u), method: :delete, :class => "btn btn-danger" %></td> -->
+    <td>
+      <% if current_user # 登入才可以关注 %>
+        <% if u.find_like(current_user) %>
+          <%= link_to "取关", unlike_usstock_path(u), :method => :post, :class => "btn btn-danger" %>
+        <% else %>
+          <%= link_to "关注", like_usstock_path(u), :method => :post, :class => "btn btn-primary" %>
+        <% end %>
+      <% end %>
+    </td>
   </tr>
   <% end %>
 </table>

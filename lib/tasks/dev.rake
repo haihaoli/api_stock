@@ -36,5 +36,43 @@ namespace :dev do
     end
     puts "#{total} data is fetched"
   end
-  
+
+  task :fetch_sz_stock_list => :environment do
+    puts "Fetch stock data..."
+    total = 0
+    for i in 1..26 do
+
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/szall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "4"}
+      data = JSON.parse(response.body)
+      data["result"]["data"].each do |s|
+        existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
+        if existing_stock.nil?
+          Usstock.create!(:juhe_gid => s["symbol"], :name => s["name"], :stock_type => "深市")
+          total += 1
+        end
+      end
+
+    end
+    puts "#{total} data is fetched"
+  end
+
+  task :fetch_sh_stock_list => :environment do
+    puts "Fetch stock data..."
+    total = 0
+    for i in 1..17 do
+
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/shall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "4"}
+      data = JSON.parse(response.body)
+      data["result"]["data"].each do |s|
+        existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
+        if existing_stock.nil?
+          Usstock.create!(:juhe_gid => s["symbol"], :name => s["name"], :stock_type => "沪市")
+          total += 1
+        end
+      end
+
+    end
+    puts "#{total} data is fetched"
+  end
+
 end
