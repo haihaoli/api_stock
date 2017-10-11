@@ -2,7 +2,7 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @likes = current_user.likes.order("priearn DESC")
+    @likes = current_user.likes.order("priearn ASC")
   end
 
   def update

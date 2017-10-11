@@ -10,6 +10,7 @@
   <tr>
     <th>股票代号</th>
     <th>股票名称</th>
+    <th>股票类型</th>
     <th>市盈率</th>
     <th>关注选项</th>
   </tr>
@@ -17,6 +18,7 @@
   <tr>
     <td><%= like.usstock.juhe_gid %></td>
     <td><%= like.usstock.name %></td>
+    <td><%= like.usstock.stock_type %></td>
     <td><%= like.priearn %></td>
     <td>
       <%= link_to "取关", unlike_usstock_path(like.usstock), :method => :post, :class => "btn btn-danger" %>
