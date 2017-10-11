@@ -1,0 +1,26 @@
+<h2>我的选股</h2>
+
+<p>
+  <div class="pull-right">
+    <%= link_to "实时更新市盈率", priearn_update_like_path(current_user), method: :post, :class => "btn btn-info" %>
+  </div>
+</p>
+
+<table class="table">
+  <tr>
+    <th>股票代号</th>
+    <th>股票名称</th>
+    <th>市盈率</th>
+    <th>关注选项</th>
+  </tr>
+  <% @likes.each do |like| %>
+  <tr>
+    <td><%= like.usstock.juhe_gid %></td>
+    <td><%= like.usstock.name %></td>
+    <td><%= like.priearn %></td>
+    <td>
+      <%= link_to "取关", unlike_usstock_path(like.usstock), :method => :post, :class => "btn btn-danger" %>
+    </td>
+  </tr>
+  <% end %>
+</table>

@@ -57,7 +57,7 @@ class UsstocksController < ApplicationController
   def like
     @usstock = Usstock.find_by_juhe_gid!(params[:id])
     unless @usstock.find_like(current_user)
-      Like.create(:user => current_user, :usstock => @usstock)
+      Like.create(:user => current_user, :usstock => @usstock, :priearn => 0)
     end
     redirect_to :back
   end
