@@ -8,7 +8,7 @@ class UsstocksController < ApplicationController
   def show
     @usstock = Usstock.find_by_juhe_gid!(params[:id])
     if @usstock.usstock?
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => ENV["API_KEY"]}
       data = JSON.parse(response.body)
       s = data["result"][0]["data"]
       @lastestpri = s["lastestpri"]
@@ -20,7 +20,7 @@ class UsstocksController < ApplicationController
       @ustime = s["ustime"]
       @time = s["time"]
     elsif @usstock.hkstock?
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => ENV["API_KEY"]}
       data = JSON.parse(response.body)
       s = data["result"][0]["data"]
       @lastestpri = s["lastestpri"]
@@ -31,7 +31,7 @@ class UsstocksController < ApplicationController
       @priearn = s["priearn"]
       @ustime = s["time"]
     elsif @usstock.cnstock?
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hs", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hs", :params => {:gid => @usstock.juhe_gid, :key => ENV["API_KEY"]}
       data = JSON.parse(response.body)
       s = data["result"][0]["data"]
       response1 = RestClient.get "http://qt.gtimg.cn/", :params => { :q => @usstock.juhe_gid }  # 腾讯股票API
@@ -57,11 +57,11 @@ class UsstocksController < ApplicationController
     @usstock = Usstock.find_by_juhe_gid!(params[:id])
     unless @usstock.find_like(current_user)
       if @usstock.usstock?
-        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => ENV["API_KEY"]}
         data = JSON.parse(response.body)
         priearn = data["result"][0]["data"]["priearn"]
       elsif @usstock.hkstock?
-        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => ENV["API_KEY"]}
         data = JSON.parse(response.body)
         priearn = data["result"][0]["data"]["priearn"]
       elsif @usstock.cnstock?

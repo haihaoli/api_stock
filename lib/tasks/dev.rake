@@ -4,7 +4,7 @@ namespace :dev do
     total = 0
     for i in 1..135 do
 
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usaall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "3"}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usaall", :params => {:key => ENV["API_KEY"], :page => "#{i}", :type => "3"}
       data = JSON.parse(response.body)
       data["result"]["data"].each do |s|
         existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
@@ -23,7 +23,7 @@ namespace :dev do
     total = 0
     for i in 1..4 do
 
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hkall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "4"}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hkall", :params => {:key => ENV["API_KEY"], :page => "#{i}", :type => "4"}
       data = JSON.parse(response.body)
       data["result"]["data"].each do |s|
         existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
@@ -42,7 +42,7 @@ namespace :dev do
     total = 0
     for i in 1..26 do
 
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/szall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "4"}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/szall", :params => {:key => ENV["API_KEY"], :page => "#{i}", :type => "4"}
       data = JSON.parse(response.body)
       data["result"]["data"].each do |s|
         existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
@@ -61,7 +61,7 @@ namespace :dev do
     total = 0
     for i in 1..17 do
 
-      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/shall", :params => {:key => JUHE_CONFIG["api_key"], :page => "#{i}", :type => "4"}
+      response = RestClient.get "http://web.juhe.cn:8080/finance/stock/shall", :params => {:key => ENV["API_KEY"], :page => "#{i}", :type => "4"}
       data = JSON.parse(response.body)
       data["result"]["data"].each do |s|
         existing_stock = Usstock.find_by_juhe_gid(s["symbol"])

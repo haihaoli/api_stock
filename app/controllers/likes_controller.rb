@@ -13,11 +13,11 @@ class LikesController < ApplicationController
     @likes = current_user.likes
     @likes.each do |like|
       if like.usstock.usstock?
-        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => like.usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => like.usstock.juhe_gid, :key => ENV["API_KEY"]}
         data = JSON.parse(response.body)
         priearn = data["result"][0]["data"]["priearn"]
       elsif like.usstock.hkstock?
-        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => like.usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => like.usstock.juhe_gid, :key => ENV["API_KEY"]}
         data = JSON.parse(response.body)
         priearn = data["result"][0]["data"]["priearn"]
       elsif like.usstock.cnstock?
