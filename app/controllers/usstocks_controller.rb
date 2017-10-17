@@ -2,7 +2,7 @@ class UsstocksController < ApplicationController
 
   def index
     @q = Usstock.ransack(params[:q])
-    @usstocks = @q.result.page(params[:page]).per(100)
+    @usstocks = @q.result.includes(:liked_users).page(params[:page]).per(10)
   end
 
   def show
@@ -35,7 +35,6 @@ class UsstocksController < ApplicationController
       data = JSON.parse(response.body)
       s = data["result"][0]["data"]
       response1 = RestClient.get "http://qt.gtimg.cn/", :params => { :q => @usstock.juhe_gid }  # 腾讯股票API
-
       @lastestpri = s["nowPri"]
       @openpri = s["todayStartPri"]
       @formpri = s["yestodEndPri"]
@@ -57,7 +56,19 @@ class UsstocksController < ApplicationController
   def like
     @usstock = Usstock.find_by_juhe_gid!(params[:id])
     unless @usstock.find_like(current_user)
-      Like.create(:user => current_user, :usstock => @usstock, :priearn => 0)
+      if @usstock.usstock?
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/usa", :params => {:gid => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        data = JSON.parse(response.body)
+        priearn = data["result"][0]["data"]["priearn"]
+      elsif @usstock.hkstock?
+        response = RestClient.get "http://web.juhe.cn:8080/finance/stock/hk", :params => {:num => @usstock.juhe_gid, :key => JUHE_CONFIG["api_key"]}
+        data = JSON.parse(response.body)
+        priearn = data["result"][0]["data"]["priearn"]
+      elsif @usstock.cnstock?
+        response1 = RestClient.get "http://qt.gtimg.cn/", :params => { :q => @usstock.juhe_gid }  # 腾讯股票API
+        priearn = response1.body.split("~")[39]
+      end
+      Like.create!(:user => current_user, :usstock => @usstock, :priearn => "#{priearn}")
     end
     redirect_to :back
   end

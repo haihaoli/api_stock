@@ -2,7 +2,7 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @likes = current_user.likes.order("priearn ASC")
+    @likes = Like.where(:user => current_user).includes(:usstock).order("priearn ASC")
   end
 
   def update

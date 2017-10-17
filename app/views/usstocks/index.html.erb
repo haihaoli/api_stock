@@ -1,7 +1,5 @@
 <%= search_form_for @q, :url => usstocks_path do |f| %>
-  <p><%= f.search_field :juhe_gid_cont, :placeholder => "股票代号，支持模糊查询", :class => "form-control" %></p>
-  <p><%= f.search_field :name_cont, :placeholder => "股票名称，支持模糊查询", :class => "form-control" %></p>
-
+  <p><%= f.search_field :juhe_gid_or_name_cont, :placeholder => "股票代号或股票名称，支持模糊查询", :class => "form-control" %></p>
   <p class="text-right">
     <%= submit_tag "送出查询", :class => "btn btn-primary" %>
   </p>
@@ -14,27 +12,21 @@
     <th>股票代号</th>
     <th>股票名称</th>
     <th>股票类型</th>
-    <!-- <th>抓取时间</th> -->
-    <!-- <th></th> -->
     <th>关注选项</th>
   </tr>
-  <% @usstocks.each do |u| %>
+  <% @usstocks.each do |usstock| %>
   <tr>
     <td>
-      <%= link_to usstock_path(u) do %>
-        <%= u.juhe_gid %>
-      <% end %>
+      <%= link_to usstock.juhe_gid, usstock_path(usstock) %>
     </td>
-    <td><%= u.name %></td>
-    <td><%= u.stock_type %></td>
-    <!-- <td><%= u.created_at %></td> -->
-    <!-- <td><%= link_to"删除记录", usstock_path(u), method: :delete, :class => "btn btn-danger" %></td> -->
+    <td><%= usstock.name %></td>
+    <td><%= usstock.stock_type %></td>
     <td>
       <% if current_user # 登入才可以关注 %>
-        <% if u.find_like(current_user) %>
-          <%= link_to "取关", unlike_usstock_path(u), :method => :post, :class => "btn btn-danger" %>
+        <% if usstock.find_like(current_user) %>
+          <%= link_to "取关", unlike_usstock_path(usstock), :method => :post, :class => "btn btn-danger" %>
         <% else %>
-          <%= link_to "关注", like_usstock_path(u), :method => :post, :class => "btn btn-primary" %>
+          <%= link_to "关注", like_usstock_path(usstock), :method => :post, :class => "btn btn-primary" %>
         <% end %>
       <% end %>
     </td>

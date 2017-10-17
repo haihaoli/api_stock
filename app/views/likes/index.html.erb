@@ -16,7 +16,7 @@
   </tr>
   <% @likes.each do |like| %>
   <tr>
-    <td><%= like.usstock.juhe_gid %></td>
+    <td><%= link_to like.usstock.juhe_gid, usstock_path(like.usstock) %></td>
     <td><%= like.usstock.name %></td>
     <td><%= like.usstock.stock_type %></td>
     <td><%= like.priearn %></td>
