@@ -75,4 +75,12 @@ namespace :dev do
     puts "#{total} data is fetched"
   end
 
+  task :fix_us_stocktpye => :environment do
+    Usstock.find_each do |u|
+      if u.stock_type.nil?
+        u.update(:stock_type => "美股")
+      end
+    end
+  end
+
 end
