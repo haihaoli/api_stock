@@ -9,7 +9,7 @@ namespace :dev do
       data["result"]["data"].each do |s|
         existing_stock = Usstock.find_by_juhe_gid(s["symbol"])
         if existing_stock.nil?
-          Usstock.create!(:juhe_gid => s["symbol"], :name => s["cname"])
+          Usstock.create!(:juhe_gid => s["symbol"], :name => s["cname"], :stock_type => "美股")
           total += 1
         end
       end
@@ -73,14 +73,6 @@ namespace :dev do
 
     end
     puts "#{total} data is fetched"
-  end
-
-  task :fix_us_stocktpye => :environment do
-    Usstock.find_each do |u|
-      if u.stock_type.nil?
-        u.update(:stock_type => "美股")
-      end
-    end
   end
 
 end
