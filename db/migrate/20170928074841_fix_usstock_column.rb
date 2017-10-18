@@ -7,7 +7,7 @@ class FixUsstockColumn < ActiveRecord::Migration[5.0]
     remove_column :usstocks, :uppic
     remove_column :usstocks, :priearn
     remove_column :usstocks, :beta
-    remove_column :usstocks, :chtime
+    remove_column :usstocks, :time
     add_column :usstocks, :stock_type, :string
   end
 end
