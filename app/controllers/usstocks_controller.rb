@@ -42,6 +42,7 @@ class UsstocksController < ApplicationController
       @uppic = s["increase"]
       @priearn = response1.body.split("~")[39]
       @ustime = s["time"]
+      @stock_num = @usstock.juhe_gid.scan(/\d+/)[0]
     end
 
   end

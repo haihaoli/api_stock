@@ -37,6 +37,14 @@
   <% elsif @usstock.cnstock? %>
     <%= image_tag("http://image.sinajs.cn/newchart/daily/n/#{@usstock.juhe_gid}.gif")%>
   <% end %>
-  <br>
-  <%= link_to "重新查询", root_path, class: "pull-right btn btn-primary" %>
+
+  <div class="pull-right">
+    <% if @usstock.usstock? %>
+      <a href="https://stock.hackinglife.asia/usstockratios/<%= @usstock.juhe_gid %>" class="btn btn-info" target="_blank">查财报</a>
+    <% elsif @usstock.cnstock? %>
+      <a href="http://caibaoshuo.cn/companies/<%= @stock_num %>" class="btn btn-info" target="_blank">查财报</a>
+    <% end %>
+    <%= link_to "重新查询", root_path, class: "btn btn-primary" %>
+  </div>
+
 </div>
