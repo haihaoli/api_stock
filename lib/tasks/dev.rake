@@ -1,4 +1,5 @@
 namespace :dev do
+  # 抓美股
   task :fetch_us_stock_list => :environment do
     puts "Fetch stock data..."
     total = 0
@@ -18,6 +19,7 @@ namespace :dev do
     puts "#{total} data is fetched"
   end
 
+  # 抓港股
   task :fetch_hk_stock_list => :environment do
     puts "Fetch stock data..."
     total = 0
@@ -37,6 +39,7 @@ namespace :dev do
     puts "#{total} data is fetched"
   end
 
+  # 抓深市
   task :fetch_sz_stock_list => :environment do
     puts "Fetch stock data..."
     total = 0
@@ -56,6 +59,7 @@ namespace :dev do
     puts "#{total} data is fetched"
   end
 
+  # 抓沪市
   task :fetch_sh_stock_list => :environment do
     puts "Fetch stock data..."
     total = 0
